@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Notes | MCH Care</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Scroll Reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo">
+            <i class="fas fa-hand-holding-heart"></i>
+            MCH<span>Care</span>
+        </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="staff.html">Medical Staff</a></li>
+            <li><a href="location.html">Location</a></li>
+            <li><a href="news.html">News & Notes</a></li>
+            <li><a href="report.html">Reports</a></li>
+        </ul>
+        <a href="index.html#appointment" class="btn-appointment">Make Appointment</a>
+    </nav>
+
+    <header class="page-hero" style="background: linear-gradient(rgba(46, 125, 50, 0.7), rgba(46, 125, 50, 0.7)), url('mch3.jpeg') center/cover no-repeat;">
+        <h1>Special News & Notes</h1>
+        <p>රෝහලේ නවතම තොරතුරු සහ විශේෂ නිවේදන</p>
+    </header>
+
+    <section class="news-content">
+        <!-- Special Notice Board -->
+        <div class="notice-board">
+            <h3><i class="fas fa-bullhorn"></i> Important Notice | වැදගත් නිවේදනයයි</h3>
+            <p>Our hospital will be conducting a free pediatric health camp on May 25th. All parents are welcome to bring their children for a free checkup.</p>
+            <p>මැයි මස 25 වන දින නොමිලේ පවත්වනු ලබන ළමා සෞඛ්‍ය සායනය සඳහා සහභාගී වන්න.</p>
+            <button id="specialNoticeBtn" class="btn-appointment" style="margin-top: 15px; border: none; cursor: pointer; display: inline-block;">Read More</button>
+            <p id="thanksMessage" style="display: none; margin-top: 15px; color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; animation: fadeIn 0.5s ease-in-out;">
+                <i class="fas fa-check-circle"></i> Thank you for your interest! | ඔබට ස්තූතියි!
+            </p>
+        </div>
+
+        <!-- News Item 1 -->
+        <article class="news-item">
+            <div class="news-meta">
+                <span class="news-tag">Update</span>
+                <span><i class="far fa-calendar-alt"></i> May 10, 2024</span>
+            </div>
+            <h2>New Advanced Neonatal ICU Equipment Installed</h2>
+            <img src="mch3.jpeg" alt="NICU Equipment" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 20px;">
+            <p>We are proud to announce the installation of the latest neonatal ventilators and monitoring systems to provide even better care for our tiny patients.</p>
+            <div class="news-details" style="display: none;">
+                <p>Our new Neonatal Intensive Care Unit (NICU) has been upgraded with cutting-edge technology including high-frequency ventilators, advanced incubators, and real-time vital monitoring systems. These upgrades allow our specialists to provide the most precise care for premature and critically ill newborns.</p>
+                <p>මෙම නවීන උපකරණ මඟින් අපගේ රෝහලට පැමිණෙන කුඩා දරුවන්ගේ ජීවිත සුරක්ෂිත කිරීමට වැඩි අවස්ථාවක් හිමිවේ.</p>
+            </div>
+            <a href="#" class="btn-read">Read More <i class="fas fa-arrow-right"></i></a>
+        </article>
+
+        <!-- News Item 2 -->
+        <article class="news-item">
+            <div class="news-meta">
+                <span class="news-tag">Health Tips</span>
+                <span><i class="far fa-calendar-alt"></i> May 05, 2024</span>
+            </div>
+            <h2>Essential Nutrition Tips for Expecting Mothers</h2>
+            <p>Proper nutrition is key to a healthy pregnancy. Learn about the vital vitamins and minerals you need during each trimester.</p>
+            <div class="news-details" style="display: none;">
+                <p>During pregnancy, your body needs extra nutrients. We recommend focusing on:</p>
+                <ul style="margin: 15px 0 15px 20px; list-style: disc;">
+                    <li><strong>Folic Acid:</strong> Vital for neural tube development.</li>
+                    <li><strong>Iron:</strong> To support increased blood volume and prevent anemia.</li>
+                    <li><strong>Calcium & Vitamin D:</strong> For baby's bone development.</li>
+                </ul>
+                <p>Please consult our nutritionists for a personalized meal plan tailored to your health needs.</p>
+                <p>ගර්භනී සමයේදී නිසි පෝෂණය ලබා ගැනීම මවගේ සහ දරුවාගේ සෞඛ්‍යයට අතිශයින්ම වැදගත් වේ.</p>
+            </div>
+            <a href="#" class="btn-read">Read More <i class="fas fa-arrow-right"></i></a>
+        </article>
+
+        <!-- News Item 3 -->
+        <article class="news-item">
+            <div class="news-meta">
+                <span class="news-tag">Announcement</span>
+                <span><i class="far fa-calendar-alt"></i> April 28, 2024</span>
+            </div>
+            <h2>Welcome Our New Consultant Gynecologist</h2>
+            <p>Join us in welcoming Dr. Priyanthi Perera to our medical team. She brings over 15 years of experience in high-risk pregnancies.</p>
+            <div class="news-details" style="display: none;">
+                <p>Dr. Priyanthi Perera specializes in managing high-risk pregnancies and maternal-fetal medicine. She has worked in leading international hospitals and is now available for consultations at Gallassapura MCH from Monday to Friday.</p>
+                <p>ප්‍රසව හා නාරිවේද පිළිබඳ විශේෂඥ වෛද්‍ය ප්‍රියන්ති පෙරේරා මහත්මිය දැන් අප රෝහලේදී හමුවිය හැක.</p>
+            </div>
+            <a href="#" class="btn-read">Read More <i class="fas fa-arrow-right"></i></a>
+        </article>
+
+    </section>
+
+    <!-- News Modal Overlay -->
+    <div class="modal-overlay" id="newsModal">
+        <div class="modal-content">
+            <span class="modal-close"><i class="fas fa-times"></i></span>
+            <div class="modal-body" id="modalBody">
+                <!-- Content injected by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    MCH<span>Care</span>
+                </div>
+                <p style="color: rgba(255,255,255,0.7)">Your trusted partner in family health. We care for your little ones as if they were our own.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="staff.html">Medical Staff</a></li>
+                    <li><a href="location.html">Location</a></li>
+                    <li><a href="news.html">News & Notes</a></li>
+                    <li><a href="report.html">Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> +94 11 234 5678</li>
+                    <li><i class="fas fa-envelope"></i> info@mchcare.lk</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Katukurunda, Kalutara, Sri Lanka</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MCH Care Hospital. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Call Button for Mobile -->
+    <a href="tel:+94112345678" class="floating-call">
+        <i class="fas fa-phone-alt"></i>
+    </a>
+
+    <script src="main.js"></script>
+</body>
+</html>

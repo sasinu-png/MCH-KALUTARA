@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Reports | MCH Care</title>
+    <meta name="description" content="Securely access and download your medical reports.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .report-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .report-status {
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7f9 0%, #e9ecef 100%);
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        .report-status i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-light);
+        }
+
+        .report-info {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .report-info h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .report-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .btn-unlock {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .btn-unlock:hover {
+            background: var(--primary-dark);
+        }
+
+        .report-preview {
+            display: none;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .report-preview.active {
+            display: block;
+        }
+
+        .report-status.hidden {
+            display: none;
+        }
+
+        .download-link {
+            display: none;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+        }
+
+        .download-link.active {
+            display: block;
+        }
+
+        /* Password Modal */
+        .pwd-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .pwd-modal.active {
+            display: flex;
+        }
+
+        .pwd-box {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .pwd-box h2 {
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .pwd-box input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .pwd-box input:focus {
+            border-color: var(--primary);
+        }
+
+        .pwd-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-verify {
+            flex: 2;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #eee;
+            color: var(--text-main);
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .error-msg {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="logo">
+            <i class="fas fa-hand-holding-heart"></i>
+            MCH<span>Care</span>
+        </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="staff.html">Medical Staff</a></li>
+            <li><a href="location.html">Location</a></li>
+            <li><a href="news.html">News & Notes</a></li>
+            <li><a href="report.html" class="active">Reports</a></li>
+        </ul>
+        <a href="index.html#appointment" class="btn-appointment">Make Appointment</a>
+    </nav>
+
+    <!-- Page Hero -->
+    <div class="page-hero" style="background: linear-gradient(rgba(46, 125, 50, 0.8), rgba(46, 125, 50, 0.8)), url('mch1.jpeg') center/cover no-repeat;">
+        <h1>Medical Reports</h1>
+        <p>ඔබගේ වෛද්‍ය වාර්තා සුරක්ෂිතව ලබාගන්න</p>
+    </div>
+
+    <!-- Reports Section -->
+    <section class="reports-section">
+        <div class="section-header" style="margin-top: 60px;">
+            <h2>Secure Access</h2>
+            <p>පහත වාර්තා බාගත කිරීම සඳහා ඔබට ලබා දී ඇති මුරපදය (Password) ඇතුළත් කරන්න.</p>
+        </div>
+
+        <div class="reports-grid" id="reportsGrid">
+            <!-- Report Cards will be generated here -->
+        </div>
+    </section>
+
+    <!-- Password Modal -->
+    <div class="pwd-modal" id="pwdModal">
+        <div class="pwd-box">
+            <i class="fas fa-lock" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+            <h2>Enter Password</h2>
+            <p style="margin-bottom: 20px; color: var(--text-muted);">Please enter the password provided by the hospital to view this report.</p>
+            <input type="password" id="pwdInput" placeholder="••••••••">
+            <p class="error-msg" id="errorMsg">Invalid password. Please try again.</p>
+            <div class="pwd-btns">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-verify" onclick="verifyPassword()">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    MCH<span>Care</span>
+                </div>
+                <p style="color: rgba(255,255,255,0.7)">Your trusted partner in family health. We care for your little ones as if they were our own.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="staff.html">Medical Staff</a></li>
+                    <li><a href="location.html">Location</a></li>
+                    <li><a href="news.html">News & Notes</a></li>
+                    <li><a href="report.html">Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> +94 11 234 5678</li>
+                    <li><i class="fas fa-envelope"></i> info@mchcare.lk</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Katukurunda, Kalutara, Sri Lanka</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MCH Care Hospital. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Report Data
+        const reports = [
+            {
+                id: 1,
+                title: "Maternity Checkup Report",
+                bstNo: "BST-2024-001",
+                patientName: "Mrs. Sandali Perera",
+                date: "2024-05-10",
+                image: "mch1.jpeg",
+                password: "123456789"
+            },
+            {
+                id: 2,
+                title: "Pediatric Growth Chart",
+                bstNo: "BST-2024-045",
+                patientName: "Baby Amal Silva",
+                date: "2024-05-12",
+                image: "mch2.jpeg",
+                password: "123456789"
+            },
+            {
+                id: 3,
+                title: "Blood Analysis Result",
+                bstNo: "BST-2024-102",
+                patientName: "Mrs. Kumari Jayawardena",
+                date: "2024-05-14",
+                image: "mch3.jpeg",
+                password: "123456789"
+            }
+        ];
+
+        let currentReportId = null;
+
+        // Render Reports
+        function renderReports() {
+            const grid = document.getElementById('reportsGrid');
+            grid.innerHTML = reports.map(report => `
+                <div class="report-card" id="report-${report.id}">
+                    <div class="report-status" id="status-${report.id}">
+                        <i class="fas fa-file-medical-alt"></i>
+                        <span>Protected Report</span>
+                    </div>
+                    <img src="${report.image}" alt="${report.title}" class="report-preview" id="preview-${report.id}" onclick="window.open(this.src)">
+                    <div class="report-info">
+                        <h3>${report.title}</h3>
+                        <p style="color: var(--primary); font-weight: 600; margin-bottom: 5px;"><i class="fas fa-user"></i> Patient: ${report.patientName}</p>
+                        <p style="color: var(--secondary); font-weight: 700; margin-bottom: 10px;">BST No: ${report.bstNo}</p>
+                        <p style="font-size: 0.85rem;"><i class="far fa-calendar-alt"></i> ${report.date}</p>
+                        <button class="btn-unlock" id="btn-${report.id}" onclick="openModal(${report.id})">
+                            <i class="fas fa-unlock-alt"></i> Unlock Report
+                        </button>
+                        <a href="${report.image}" download class="download-link" id="dl-${report.id}">
+                            <i class="fas fa-download"></i> Download Report
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(id) {
+            currentReportId = id;
+            document.getElementById('pwdModal').classList.add('active');
+            document.getElementById('pwdInput').value = '';
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('pwdInput').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('pwdModal').classList.remove('active');
+            currentReportId = null;
+        }
+
+        function verifyPassword() {
+            const input = document.getElementById('pwdInput').value;
+            const report = reports.find(r => r.id === currentReportId);
+
+            if (input === report.password) {
+                // Success
+                document.getElementById(`status-${report.id}`).classList.add('hidden');
+                document.getElementById(`preview-${report.id}`).classList.add('active');
+                document.getElementById(`btn-${report.id}`).style.display = 'none';
+                document.getElementById(`dl-${report.id}`).classList.add('active');
+                closeModal();
+                
+                // Add success animation
+                const card = document.getElementById(`report-${report.id}`);
+                card.style.borderColor = 'var(--primary)';
+                card.style.boxShadow = '0 20px 40px rgba(46, 125, 50, 0.2)';
+            } else {
+                // Failure
+                document.getElementById('errorMsg').style.display = 'block';
+                document.getElementById('pwdInput').style.borderColor = '#d32f2f';
+                setTimeout(() => {
+                    document.getElementById('pwdInput').style.borderColor = '#eee';
+                }, 1000);
+            }
+        }
+
+        // Handle Enter key
+        document.getElementById('pwdInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                verifyPassword();
+            }
+        });
+
+        // Initialize
+        renderReports();
+
+        // Mobile Menu Logic (Copy from main.js if needed, or link main.js)
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>
